@@ -251,43 +251,42 @@ public class EmployeeController {
 
 		return "description_fill_byUser";
 	}
-	
-	/**------------------------logout mapping-------------------------------------------**/
-	@RequestMapping(value = "logout", method = RequestMethod.POST)
+
+	/**
+	 * ------------------------logout
+	 * mapping-------------------------------------------
+	 **/
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logoutPage(HttpSession session) throws IOException {
 		session.invalidate();
-		
+
 		return "user_login";
-		}
-	
-	   
-       
-      /* ------------------
-       @RequestMapping("/logout")
-       public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-           log.debug("Starting of the method logout");
-           System.out.println("Starting of the method logout");
+	}
 
-           ModelAndView mv = new ModelAndView("/home");
-           session.invalidate();
-           session = request.getSession(true);
-           mv.addObject("homePagee", "true");
-           mv.addObject("temp1", "true");
-
-           Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-           if (auth != null) {
-               new SecurityContextLogoutHandler().logout(request, response, auth);
-           }
-           System.out.println("Ending of the method logout");
-
-           log.debug("Ending of the method logout");
-           return mv;
-           // return "redirect:/login?logout";
-
-       }
-	
 	/*
+	 * ------------------
+	 * 
+	 * @RequestMapping("/logout") public ModelAndView logout(HttpServletRequest
+	 * request, HttpServletResponse response) {
+	 * log.debug("Starting of the method logout");
+	 * System.out.println("Starting of the method logout");
+	 * 
+	 * ModelAndView mv = new ModelAndView("/home"); session.invalidate(); session =
+	 * request.getSession(true); mv.addObject("homePagee", "true");
+	 * mv.addObject("temp1", "true");
+	 * 
+	 * Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	 * 
+	 * if (auth != null) { new SecurityContextLogoutHandler().logout(request,
+	 * response, auth); } System.out.println("Ending of the method logout");
+	 * 
+	 * log.debug("Ending of the method logout"); return mv; // return
+	 * "redirect:/login?logout";
+	 * 
+	 * }
+	 * 
+	 * /*
+	 * 
 	 * @RequestMapping(value="getNewDetails" ,method = RequestMethod.POST) public
 	 * String saveSalaryAndLocation(@RequestParam String empName,@RequestParam
 	 * String profile,@RequestParam String address,@RequestParam String
