@@ -6,9 +6,10 @@ a {
 	font-size: large;
 }
 
-table {
-	border: 2px solid;
+table, th, td {
+	border: 1px solid black;
 	border-collapse: collapse;
+	text-align: center;
 }
 
 th {
@@ -77,15 +78,24 @@ body {
 		<a href="http://localhost:9021/HibernateTest/adminLogout"><i class="fa fa-fw fa-home"></i>Logout</a>
 	</div>
 	<div align="center">
-		<h2>Employee Details</h2>
+		<h2>Employee Data</h2>
 		<table>
 			<tr>
 				<th>Employee Name</th>
 				<th>Profile</th>
 				<th>Salary</th>
 				<th>Address</th>
-				<th>Action</th>
-				<th>Action</th>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>BillsImage</th>
+				<th>Date</th>
+				<th>Time</th>
+				<th>AccountNo</th>
+				<th>IFSCCode</th>
+				<th>BankName</th>
+				
+			<%-- <th>Action</th>
+				<th>Action</th>--%>	
 			</tr>
 			<c:forEach items="${empList}" var="empList">
 				<tr>
@@ -93,7 +103,16 @@ body {
 					<td>${empList.profile}</td>
 					<td>${empList.salary}</td>
 					<td>${empList.address}</td>
-					<td>
+					<td>${empList.amount}</td>
+					<td>${empList.desctiption}</td>
+					<td>${empList.billsImg}</td>
+					<td>${empList.date}</td>
+					<td>${empList.time}</td>
+					<td>${empList.accNo}</td>
+					<td>${empList.ifscCode}</td>
+					<td>${empList.bankname}</td>
+					
+					<%-- <td>
 						<form action="http://localhost:9021/HibernateTest/recordsToUpdate"
 							method="post">
 							<input type="hidden" value="${list.id}" name="empId"> <input
@@ -116,7 +135,7 @@ body {
 								type="submit" value="Delete Record" style="margin-left: 20px">
 						</form>
 					</td>
-				</tr>
+				</tr>--%>
 			</c:forEach>
 		</table>
 	</div>
