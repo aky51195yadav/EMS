@@ -247,6 +247,11 @@ public class EmployeeController {
 
 		return "description_fill_byUser";
 	}
+	/**------------------------logout mapping-------------------------------------------**/
+	@RequestMapping(value = "logout", method = RequestMethod.POST)
+	public String logoutPage() {
+		return "user_login";
+	}
 
 	/*
 	 * @RequestMapping(value="getNewDetails" ,method = RequestMethod.POST) public
