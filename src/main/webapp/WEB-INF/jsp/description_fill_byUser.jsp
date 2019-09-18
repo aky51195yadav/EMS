@@ -159,10 +159,7 @@ body {
 
 </div>
 <div class="sidebar">
-	<a href="#home"><i class="fa fa-fw fa-home"></i> Home</a> <a
-		href="#services"><i class="fa fa-fw fa-wrench"></i> Services</a> <a
-		href="#clients"><i class="fa fa-fw fa-user"></i> Clients</a> <a
-		href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+	<a href="logout"><i class="fa fa-fw fa-home"></i>logout</a> 
 </div>
 <form action="http://localhost:9021/HibernateTest/getDescription"
 	method="post" enctype="multipart/form-data">
