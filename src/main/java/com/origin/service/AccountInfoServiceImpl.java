@@ -35,4 +35,17 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
 	}
 
+	@Override
+	public List<AccountInfo> getAllAccountRecords(int empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountInfo> getAllAccountRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

@@ -103,14 +103,14 @@ body {
 					<td>${empList.profile}</td>
 					<td>${empList.salary}</td>
 					<td>${empList.address}</td>
-					<td>${empList.amount}</td>
-					<td>${empList.desctiption}</td>
-					<td>${empList.billsImg}</td>
-					<td>${empList.date}</td>
-					<td>${empList.time}</td>
-					<td>${empList.accNo}</td>
-					<td>${empList.ifscCode}</td>
-					<td>${empList.bankname}</td>
+					<td>${eexlist.amount}</td>
+					<td>${eexlist.desctiption}</td>
+					<td>${eexlist.billsImg}</td>
+					<td>${eexlist.date}</td>
+					<td>${eexlist.time}</td>
+					<td>${accList.accNo}</td>
+					<td>${accList.ifscCode}</td>
+					<td>${accList.bankname}</td>
 					
 					<%-- <td>
 						<form action="http://localhost:9021/HibernateTest/recordsToUpdate"

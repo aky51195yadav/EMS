@@ -10,6 +10,9 @@ public interface AccountInfoService {
 
 	void saveEmployee(AccountInfo acc);
 
-	List<AccountInfo> getAllRecords();
+	List<AccountInfo> getAllRecords();	
+	List<AccountInfo> getAllAccountRecords(int empId);
+
+	List<AccountInfo> getAllAccountRecords();
 
 }

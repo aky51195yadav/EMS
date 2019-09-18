@@ -5,15 +5,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,19 +81,55 @@ public class EmployeeController {
 	public String getSignUp() {
 		return "sign_up";
 	}
-
+   /**-----------------------------mapping of employee table--------------------------------------------------------------------**/
 	@RequestMapping(value = "showAll", method = RequestMethod.GET)
 	public ModelAndView showRecords() {
 		List<Employee> empList = empService.getAllRecords();
 		System.out.println(empList);
-		// List<AccountInfo> acclist = accService.getAllRecords();
-		// List<Expenses> eexlist = eexServices.getAllRecords();
+		List<AccountInfo> accList = accService.getAllAccountRecords();
+		System.out.println(accList);
+		List<Expenses> eexlist = eexServices.getAllExpensesRecords();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("all_details");
 		mav.addObject("empList", empList);
+		mav.addObject("accList",accList);
+		mav.addObject("eexlist",eexlist);
+	
 		return mav;
 	}
+	
+	@RequestMapping(value = "accountUpdate", method = RequestMethod.POST)
+	public ModelAndView accountRecords(@RequestParam int accId, @RequestParam int accountNo , @RequestParam String ifsc,
+			@RequestParam String bankName) {
+		AccountInfo info = new AccountInfo();
+		info.setAccId(accId);
+		info.setAccountNo(accountNo);
+		info.setBankName(bankName);
+		info.setIfsc(ifsc);
+		
+		ModelAndView andView = new ModelAndView();
+		andView.setViewName("all_details");
+		andView.addObject("info", info);
+		return andView;
+	}
+	
+	@RequestMapping(value = "expensesUpdate", method = RequestMethod.POST)
+	public ModelAndView expensesRecords(@RequestParam int expId, @RequestParam String description, @RequestParam float amount,
+			@RequestParam String image,@RequestParam String date,@RequestParam String time) {
+		Expenses expenses = new Expenses();
+		expenses.setExpId(expId);
+		expenses.setDescription(description);
+		expenses.setAmount(amount);
+		expenses.setImage(image);
+		expenses.setDate(date);
+		expenses.setTime(time);
+		ModelAndView andView = new ModelAndView();
+		andView.setViewName("all_details");
+		andView.addObject("expenses", expenses);
+		return andView;
+	}
 
+	
 	@RequestMapping(value = "recordsToUpdate", method = RequestMethod.POST)
 	public ModelAndView records(@RequestParam int empId, @RequestParam String empName, @RequestParam String profile,
 			@RequestParam int salary, @RequestParam String address) {
@@ -256,56 +290,59 @@ public class EmployeeController {
 	 * mapping-------------------------------------------
 	 **/
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logoutPage(HttpServletRequest request) throws IOException {
-		 try {
-			    HttpSession session = request.getSession(false);
-			    if (session != null) {
-			      String username = session.getAttribute(USER_NAME).toString();
-			      //do stuff with username
-			      session.invalidate();
-			    }
-			  } catch (Exception e) {
-			    //handle exception
-			  }
+	public String logoutPage(HttpSession session) throws IOException {
+		session.invalidate();
 		return "user_login";
 	}
-	
-	
-	@RequestMapping(value="adminLogout" , method = RequestMethod.GET)
-	public String adminLogout(HttpSession session)
-	{
+
+	/**
+	 * -----------------------logout mapping for admin
+	 * ---------------------------------------------
+	 **/
+	@RequestMapping(value = "adminLogout", method = RequestMethod.GET)
+	public String adminLogout(HttpSession session) {
 		session.invalidate();
 		return "admin_login";
 	}
-	
-	
-	/*
-	@RequestMapping(value="login")
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-	    
-		
-		log.debug("Starting of the method logout");
-	    System.out.println("Starting of the method logout");
 
-	    ModelAndView mv = new ModelAndView("/home");
-	    session.invalidate();
-	    session = request.getSession(true);
-	    mv.addObject("homePagee", "true");
-	    mv.addObject("temp1", "true");
+	/**
+	 * ----------------------login maping for
+	 * user-------------------------------------------------
+	 **/
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public String login(@RequestParam("username") String username, @RequestParam("password") String password,
+			HttpSession session, ModelMap modelMap) {
+		if (username.equalsIgnoreCase("acc1") && password.equalsIgnoreCase("123")) {
+			session.setAttribute("username", username);
+			return "account/success";
 
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	    if (auth != null) {
-	        new SecurityContextLogoutHandler().logout(request, response, auth);
-	    }
-	    System.out.println("Ending of the method logout");
-
-	    log.debug("Ending of the method logout");
-	    return mv;
-	    // return "redirect:/login?logout";
+		} else {
+			modelMap.put("error", "Invalid Account");
+			return "account/index";
+		}
 	}
 
-	
+	/*
+	 * @RequestMapping(value="login") public ModelAndView logout(HttpServletRequest
+	 * request, HttpServletResponse response) {
+	 * 
+	 * 
+	 * log.debug("Starting of the method logout");
+	 * System.out.println("Starting of the method logout");
+	 * 
+	 * ModelAndView mv = new ModelAndView("/home"); session.invalidate(); session =
+	 * request.getSession(true); mv.addObject("homePagee", "true");
+	 * mv.addObject("temp1", "true");
+	 * 
+	 * Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	 * 
+	 * if (auth != null) { new SecurityContextLogoutHandler().logout(request,
+	 * response, auth); } System.out.println("Ending of the method logout");
+	 * 
+	 * log.debug("Ending of the method logout"); return mv; // return
+	 * "redirect:/login?logout"; }
+	 * 
+	 * 
 	 * ------------------
 	 * 
 	 * @RequestMapping("/logout") public ModelAndView logout(HttpServletRequest

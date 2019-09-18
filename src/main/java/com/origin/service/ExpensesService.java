@@ -18,4 +18,8 @@ public interface ExpensesService {
 
 	Expenses fetchRecordEmployee_Expenses(int empId);
 
+	List<Expenses> getAllExpensesRecords(int expId);
+
+	List<Expenses> getAllExpensesRecords();
+
 }

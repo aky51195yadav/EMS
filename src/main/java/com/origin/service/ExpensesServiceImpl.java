@@ -71,4 +71,18 @@ public class ExpensesServiceImpl implements ExpensesService {
 		return new Expenses();
 	}
 
+	
+
+	@Override
+	public List<Expenses> getAllExpensesRecords(int expId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Expenses> getAllExpensesRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
