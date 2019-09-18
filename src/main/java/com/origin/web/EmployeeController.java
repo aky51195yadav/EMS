@@ -2,9 +2,13 @@ package com.origin.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
@@ -250,10 +254,39 @@ public class EmployeeController {
 	
 	/**------------------------logout mapping-------------------------------------------**/
 	@RequestMapping(value = "logout", method = RequestMethod.POST)
-	public String logoutPage() {
+	public String logoutPage(HttpSession session) throws ServletException, IOException {
+		session.invalidate();
+		
 		return "user_login";
-	}
+		}
+	
+	   
+       
+      /* ------------------
+       @RequestMapping("/logout")
+       public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+           log.debug("Starting of the method logout");
+           System.out.println("Starting of the method logout");
 
+           ModelAndView mv = new ModelAndView("/home");
+           session.invalidate();
+           session = request.getSession(true);
+           mv.addObject("homePagee", "true");
+           mv.addObject("temp1", "true");
+
+           Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+           if (auth != null) {
+               new SecurityContextLogoutHandler().logout(request, response, auth);
+           }
+           System.out.println("Ending of the method logout");
+
+           log.debug("Ending of the method logout");
+           return mv;
+           // return "redirect:/login?logout";
+
+       }
+	
 	/*
 	 * @RequestMapping(value="getNewDetails" ,method = RequestMethod.POST) public
 	 * String saveSalaryAndLocation(@RequestParam String empName,@RequestParam
