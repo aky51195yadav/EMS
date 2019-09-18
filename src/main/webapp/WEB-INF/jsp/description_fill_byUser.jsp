@@ -156,10 +156,9 @@ body {
 <div class="topnav">
 
 	<a class="active" href="http://localhost:9021/HibernateTest/logout">Logout</a>
-
 </div>
 <div class="sidebar">
-	<a href="logout"><i class="fa fa-fw fa-home"></i>logout</a> 
+	<a href="http://localhost:9021/HibernateTest/logout"><i class="fa fa-fw fa-home"></i>logout</a>
 </div>
 <form action="http://localhost:9021/HibernateTest/getDescription"
 	method="post" enctype="multipart/form-data">

@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -253,18 +256,56 @@ public class EmployeeController {
 	 * mapping-------------------------------------------
 	 **/
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logoutPage(HttpSession session) throws IOException {
-		session.invalidate();
+	public String logoutPage(HttpServletRequest request) throws IOException {
+		 try {
+			    HttpSession session = request.getSession(false);
+			    if (session != null) {
+			      String username = session.getAttribute(USER_NAME).toString();
+			      //do stuff with username
+			      session.invalidate();
+			    }
+			  } catch (Exception e) {
+			    //handle exception
+			  }
 		return "user_login";
 	}
-	@RequestMapping(value="adminLogout" method = RequestMethod.GET)
+	
+	
+	@RequestMapping(value="adminLogout" , method = RequestMethod.GET)
 	public String adminLogout(HttpSession session)
 	{
 		session.invalidate();
 		return "admin_login";
 	}
-
+	
+	
 	/*
+	@RequestMapping(value="login")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+	    
+		
+		log.debug("Starting of the method logout");
+	    System.out.println("Starting of the method logout");
+
+	    ModelAndView mv = new ModelAndView("/home");
+	    session.invalidate();
+	    session = request.getSession(true);
+	    mv.addObject("homePagee", "true");
+	    mv.addObject("temp1", "true");
+
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+	    if (auth != null) {
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    System.out.println("Ending of the method logout");
+
+	    log.debug("Ending of the method logout");
+	    return mv;
+	    // return "redirect:/login?logout";
+	}
+
+	
 	 * ------------------
 	 * 
 	 * @RequestMapping("/logout") public ModelAndView logout(HttpServletRequest

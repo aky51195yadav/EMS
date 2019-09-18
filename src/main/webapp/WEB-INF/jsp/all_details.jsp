@@ -74,7 +74,7 @@ body {
 </head>
 <body>
 	<div class="sidebar">
-		<a href="logout"><i class="fa fa-fw fa-home"></i>Logout</a>
+		<a href="http://localhost:9021/HibernateTest/adminLogout"><i class="fa fa-fw fa-home"></i>Logout</a>
 	</div>
 	<div align="center">
 		<h2>Employee Details</h2>
