@@ -3,11 +3,9 @@ package com.origin.web;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.origin.service.AccountInfoService;
 import com.origin.service.ExpensesService;
 import com.origin.service.EmployeeService;
@@ -34,7 +31,10 @@ public class EmployeeController {
 	private ExpensesService eexServices;
 
 	@Autowired
-	HttpSession http;
+	private HttpSession session;
+
+	@Autowired
+	private HttpServletResponse response;
 
 	@RequestMapping(value = "form", method = RequestMethod.GET)
 	public String fillDetails() {
@@ -144,26 +144,36 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "userPwd", method = RequestMethod.POST)
-	public String getDetails(@RequestParam String userName, @RequestParam String password, Model model) {
+	public ModelAndView getDetails(@RequestParam String userName, @RequestParam String password, Model model) {
 
+		ModelAndView mav = new ModelAndView();
 		Employee emp = empService.fetchUser(userName, password);
-
-		String dbUser = emp.getUserName();
-		String dbPwd = emp.getPwd();
-
-		boolean b = empService.userValidation(userName, dbUser);
-		boolean b1 = empService.pwdValidation(password, dbPwd);
-		if (!b) {
-			model.addAttribute("error", "Invalid user name");
-			return "user_login";
+		if (emp != null) {
+			String dbUser = emp.getUserName();
+			String dbPwd = emp.getPwd();
+			boolean b = empService.userValidation(userName, dbUser);
+			boolean b1 = empService.pwdValidation(password, dbPwd);
+			if (!b) {
+				model.addAttribute("error", "Invalid user name");
+				mav.setViewName("user_login");
+				return mav;
+			}
+			if (!b1) {
+				model.addAttribute("error", "Invalid password");
+				mav.setViewName("user_login");
+				return mav;
+			}
+		} else {
+			model.addAttribute("error", "Invalid Data");
+			mav.setViewName("user_login");
+			return mav;
 		}
-		if (!b1) {
-			model.addAttribute("error", "Invalid password");
-			return " user_login";
-		}
 
-		return "description_fill_byUser";
-
+		session.setAttribute("emp", emp);
+		// checkSession(userName);
+		mav.setViewName("description_fill_byUser");
+		// mav.addObject("emp", emp);
+		return mav;
 	}
 
 	@RequestMapping(value = "getDetails", method = RequestMethod.POST)
@@ -178,9 +188,9 @@ public class EmployeeController {
 
 	@RequestMapping(value = "getEmpId", method = RequestMethod.POST)
 	public ModelAndView getEmpId(@RequestParam int empId) {
-		Employee emp = empService.fetchRecordTbl_Employee(empId);
-		AccountInfo info = accService.fetchRecordAccountInfo(empId);
-		Expenses eex = eexServices.fetchRecordEmployee_Expenses(empId);
+		Employee emp = empService.fetchEmployeeById(empId);
+		AccountInfo info = accService.fetchAccountById(empId);
+		Expenses eex = eexServices.fetchExpensesById(empId);
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("emp_details");
@@ -198,9 +208,9 @@ public class EmployeeController {
 	@RequestMapping(value = "empId", method = RequestMethod.POST)
 	public ModelAndView recordById(@RequestParam int empId) {
 
-		Employee emp = empService.fetchRecordTbl_Employee(empId);
-		AccountInfo info = accService.fetchRecordAccountInfo(empId);
-		Expenses eex = eexServices.fetchRecordEmployee_Expenses(empId);
+		Employee emp = empService.fetchEmployeeById(empId);
+		AccountInfo info = accService.fetchAccountById(empId);
+		Expenses eex = eexServices.fetchExpensesById(empId);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("description_fill_byUser");
 		mav.addObject("emp", emp);
@@ -211,23 +221,14 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "getDescription", method = RequestMethod.POST)
-	public String saveUpdatedRecord(@RequestParam int empId, @RequestParam String name,
-			@RequestParam("amount") Float amount, @RequestParam MultipartFile file, @RequestParam String date,
-			@RequestParam String time, @RequestParam String desc) {
-//------------------------------------------------------------------------------------------------------------
-		// To generate a randomly string name
-		String stringName = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		StringBuilder salt = new StringBuilder();
-		Random rnd = new Random();
-		while (salt.length() < 18) { // length of the random string.
-			int index = (int) (rnd.nextFloat() * stringName.length());
-			salt.append(stringName.charAt(index));
-		}
-		String string = salt.toString();
-//------------------------------------------------------------------------------------------------------------
+	public String saveUpdatedRecord(@RequestParam int empId, @RequestParam("amount") Float amount,
+			@RequestParam MultipartFile file, @RequestParam String date, @RequestParam String time,
+			@RequestParam String desc) {
 
-		String addExtention = string + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-		File f = new File("E:\\Ankit Yadav\\DatabaseImage", addExtention);
+		String string = empService.getRandomString();
+		String extension = empService.getExtension(file);
+		String fileName = string + extension;
+		File f = new File("E:\\Ankit Yadav\\DatabaseImage", fileName);
 		try {
 			file.transferTo(f);
 		} catch (IllegalStateException e1) {
@@ -236,16 +237,39 @@ public class EmployeeController {
 			e1.printStackTrace();
 		}
 
+		Employee emp = empService.fetchEmployeeById(empId);
+
 		Expenses eexp = new Expenses();
-		eexp.setImage(addExtention);
+		eexp.setImage(fileName);
 		eexp.setAmount(amount);
 		eexp.setDate(date);
 		eexp.setTime(time);
 		eexp.setDescription(desc);
+		eexp.setEmployee(emp);
 		eexServices.updateDetails(eexp);
 		System.out.println("updated save");
-
+		System.out.println(session.getAttribute("user"));
 		return "description_fill_byUser";
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout() {
+
+		session.invalidate();
+		return "user_login";
+	}
+
+	public void checkSession(String userName) {
+
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("user");
+		}
+
+	}
+	@RequestMapping(value = "onlyName", method = RequestMethod.GET)
+	public String showName()
+	{
+		return "show_only_name";
 	}
 
 	/*

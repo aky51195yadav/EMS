@@ -63,7 +63,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 	}
 
 	@Override
-	public Expenses fetchRecordEmployee_Expenses(int empId) {
+	public Expenses fetchExpensesById(int empId) {
 		Optional<Expenses> option = eexpRepo.findById(empId);
 		if (option.isPresent()) {
 			return option.get();

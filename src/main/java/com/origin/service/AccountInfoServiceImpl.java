@@ -15,7 +15,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	AccountInfoRepo accRepo;
 
 	@Override
-	public AccountInfo fetchRecordAccountInfo(int empId) {
+	public AccountInfo fetchAccountById(int empId) {
 		Optional<AccountInfo> option = accRepo.findById(empId);
 		if (option.isPresent()) {
 			return option.get();

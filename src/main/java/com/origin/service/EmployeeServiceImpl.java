@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee fetchRecordTbl_Employee(int empId) {
+	public Employee fetchEmployeeById(int empId) {
 
 		Optional<Employee> option = employeeRepo.findById(empId);
 		if (option.isPresent()) {
@@ -73,19 +75,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean userValidation(String userName, String dbUser) {
 
-		return userName.equals("dbUser");
+		return userName.equalsIgnoreCase(dbUser);
 
 	}
 
 	@Override
 	public boolean pwdValidation(String password, String dbPwd) {
-		return password.equalsIgnoreCase("dbPwd");
+		return password.equals(dbPwd);
 	}
 
 	@Override
 	public Employee fetchUser(String userName, String pwd) {
-		System.out.println("vdfhjkvbdfjvgbf ghdv ");
 		return employeeRepo.findByUserNameAndPwd(userName, pwd);
+	}
+
+	@Override
+	public String getRandomString() {
+		String stringName = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < 18) { // length of the random string.
+			int index = (int) (rnd.nextFloat() * stringName.length());
+			salt.append(stringName.charAt(index));
+		}
+		return salt.toString();
+	}
+
+	@Override
+	public String getExtension(MultipartFile file) {
+
+		return "."+FilenameUtils.getExtension(file.getOriginalFilename());
+	}
+
+	@Override
+	public void checkSession(String userName) {
+		
+		
 	}
 
 }
