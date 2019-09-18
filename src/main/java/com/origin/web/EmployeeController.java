@@ -254,7 +254,7 @@ public class EmployeeController {
 	
 	/**------------------------logout mapping-------------------------------------------**/
 	@RequestMapping(value = "logout", method = RequestMethod.POST)
-	public String logoutPage(HttpSession session) throws ServletException, IOException {
+	public String logoutPage(HttpSession session) throws IOException {
 		session.invalidate();
 		
 		return "user_login";
