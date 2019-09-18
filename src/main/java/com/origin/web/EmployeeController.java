@@ -2,13 +2,9 @@ package com.origin.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
@@ -23,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.origin.service.AccountInfoService;
-import com.origin.service.ExpensesService;
 import com.origin.service.EmployeeService;
+import com.origin.service.ExpensesService;
 
 @Controller
 public class EmployeeController {
@@ -38,7 +34,7 @@ public class EmployeeController {
 	private ExpensesService eexServices;
 
 	@Autowired
-	HttpSession http;
+	HttpSession session;
 
 	@RequestMapping(value = "form", method = RequestMethod.GET)
 	public String fillDetails() {
@@ -259,8 +255,13 @@ public class EmployeeController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logoutPage(HttpSession session) throws IOException {
 		session.invalidate();
-
 		return "user_login";
+	}
+	@RequestMapping(value="adminLogout" method = RequestMethod.GET)
+	public String adminLogout(HttpSession session)
+	{
+		session.invalidate();
+		return "admin_login";
 	}
 
 	/*
