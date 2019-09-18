@@ -108,6 +108,48 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: skyblue;
 }
+
+body {
+	font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+	height: 100%;
+	width: 160px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	padding-top: 16px;
+}
+
+.sidebar a {
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	font-size: 20px;
+	color: #818181;
+	display: block;
+}
+
+.sidebar a:hover {
+	color: #f1f1f1;
+}
+
+.main {
+	margin-left: 160px; /* Same as the width of the sidenav */
+	padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidebar {
+		padding-top: 15px;
+	}
+	.sidebar a {
+		font-size: 18px;
+	}
+}
 </style>
 </head>
 
@@ -115,6 +157,12 @@ body {
 
 	<a class="active" href="http://localhost:9021/HibernateTest/logout">Logout</a>
 
+</div>
+<div class="sidebar">
+	<a href="#home"><i class="fa fa-fw fa-home"></i> Home</a> <a
+		href="#services"><i class="fa fa-fw fa-wrench"></i> Services</a> <a
+		href="#clients"><i class="fa fa-fw fa-user"></i> Clients</a> <a
+		href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
 </div>
 <form action="http://localhost:9021/HibernateTest/getDescription"
 	method="post" enctype="multipart/form-data">
