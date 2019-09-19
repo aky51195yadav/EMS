@@ -20,7 +20,7 @@ public interface EmployeeService {
 
 	Employee fetchRecord(String name, String address);
 
-	Employee fetchRecordTbl_Employee(int employee);
+	Employee fetchRecordTbl_Employee(int expId);
 
 	boolean pwdValidation(String password, String dbPwd);
 

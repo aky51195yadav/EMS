@@ -218,19 +218,20 @@ public class EmployeeController {
 	}
 
 	/**
-	 * -------------------------------------------------------------------------
+	 * -------------------------mapping of show table
+	 * jsp-----------------------------------------------------
 	 **/
 	@RequestMapping(value = "getEmpId", method = RequestMethod.POST)
 	public ModelAndView getEmpId(@RequestParam int empId) {
 		Employee emp = empService.fetchRecordTbl_Employee(empId);
 		AccountInfo info = accService.fetchRecordAccountInfo(empId);
-		Expenses eex = eexServices.fetchRecordEmployee_Expenses(empId);
-
+		List<Expenses> expenses = eexServices.fetchRecordEmployee_Expenses(empId);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("all_details");
 		mav.addObject("emp", emp);
 		mav.addObject("info", info);
-		mav.addObject("eex", eex);
+		mav.addObject("expenses", expenses);
 		return mav;
 	}
 
@@ -239,26 +240,7 @@ public class EmployeeController {
 		return "enter_nameaddress";
 	}
 
-	/**
-	 * -------------------------mapping of show table
-	 * jsp-----------------------------------------------------
-	 **/
-
-	@RequestMapping(value = "empId", method = RequestMethod.POST)
-	public ModelAndView recordById(@RequestParam int employee) {
-
-		Employee emp = empService.fetchRecordTbl_Employee(employee);
-		AccountInfo info = accService.fetchRecordAccountInfo(employee);
-		Expenses eex = eexServices.fetchRecordEmployee_Expenses(employee);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("description_fill_byUser");
-		mav.addObject("emp", emp);
-		mav.addObject("info", info);
-		mav.addObject("eex", eex);
-
-		return mav;
-	}
-
+	
 	@RequestMapping(value = "getDescription", method = RequestMethod.POST)
 	public String saveUpdatedRecord(@RequestParam int empId, @RequestParam String name,
 			@RequestParam("amount") Float amount, @RequestParam MultipartFile file, @RequestParam String date,
@@ -320,6 +302,12 @@ public class EmployeeController {
 	@RequestMapping(value = "homepage", method = RequestMethod.GET)
 	public String dataChange() {
 		return "thanku";
+	}
+     
+	@RequestMapping(value="home1" ,method=RequestMethod.GET)
+	public String homeReturn()
+	{
+		return "login_choice";
 	}
 
 	/*

@@ -58,9 +58,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee fetchRecordTbl_Employee(int employee) {
+	public Employee fetchRecordTbl_Employee(int expId) {
 
-		Optional<Employee> option = employeeRepo.findById(employee);
+		Optional<Employee> option = employeeRepo.findById(expId);
 		if (option.isPresent()) {
 
 			return option.get();

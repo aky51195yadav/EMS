@@ -6,7 +6,7 @@ import com.origin.web.AccountInfo;
 
 public interface AccountInfoService {
 
-	AccountInfo fetchRecordAccountInfo(int employee);
+	AccountInfo fetchRecordAccountInfo(int expId);
 
 	void saveEmployee(AccountInfo acc);
 

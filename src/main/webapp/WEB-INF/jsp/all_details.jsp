@@ -93,11 +93,6 @@ h2 {
 				<th>Profile</th>
 				<th>Salary</th>
 				<th>Address</th>
-				<th>Amount</th>
-				<th>Description</th>
-				<th>BillsImage</th>
-				<th>Date</th>
-				<th>Time</th>
 				<th>AccountNo</th>
 				<th>IFSCCode</th>
 				<th>BankName</th>
@@ -111,17 +106,6 @@ h2 {
 				<td>${emp.profile}</td>
 				<td>${emp.salary}</td>
 				<td>${emp.address}</td>
-
-
-
-
-				<td>${eex.amount}</td>
-				<td>${eex.description}</td>
-				<td>${eex.image}</td>
-				<td>${eex.date}</td>
-				<td>${eex.time}</td>
-
-
 				<td>${info.accountNo}</td>
 				<td>${info.ifsc}</td>
 				<td>${info.bankName}</td>
@@ -151,6 +135,27 @@ h2 {
 					</td>--%>
 
 
+		</table>
+	</div>
+	<div align="center">
+	<h2>Employee Expenses</h2>
+		<table>
+			<tr>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>BillsImage</th>
+				<th>Date</th>
+				<th>Time</th>
+			</tr>
+			<c:forEach items="${expenses}" var="expenses">
+				<tr>
+					<td>${expenses.amount}</td>
+					<td>${expenses.description}</td>
+					<td>${expenses.image}</td>
+					<td>${expenses.date}</td>
+					<td>${expenses.time}</td>
+				</tr>
+			</c:forEach>
 		</table>
 	</div>
 </body>

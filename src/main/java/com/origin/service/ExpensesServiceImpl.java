@@ -2,6 +2,7 @@ package com.origin.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.origin.repo.EmployeeRepo;
 import com.origin.repo.ExpensesRepo;
+import com.origin.web.Employee;
 import com.origin.web.Expenses;
 
 import java.util.Optional;
@@ -19,6 +22,9 @@ import java.util.Optional;
 public class ExpensesServiceImpl implements ExpensesService {
 	@Autowired
 	ExpensesRepo eexpRepo;
+	
+	@Autowired
+	private EmployeeRepo empRepo;
 
 	@Override
 	public void updateDetails(Expenses eexp) {
@@ -63,12 +69,13 @@ public class ExpensesServiceImpl implements ExpensesService {
 	}
 
 	@Override
-	public Expenses fetchRecordEmployee_Expenses(int employee) {
-		Optional<Expenses> option = eexpRepo.findById(employee);
+	public List<Expenses> fetchRecordEmployee_Expenses(int empId) {
+		Employee emp = empRepo.findById(empId).orElse(null);
+		Optional<List<Expenses>> option = eexpRepo.findAllByEmployee(emp);
 		if (option.isPresent()) {
 			return option.get();
 		}
-		return new Expenses();
+		return new ArrayList<Expenses>();
 	}
 
 	
