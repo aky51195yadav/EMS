@@ -1,5 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@include file="header.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
 <style>
+body
+{
+border-bottom-color:slyblue;
+}
 a {
 	text-decoration: none;
 	color: blue;
@@ -12,70 +21,45 @@ table, th, td {
 	text-align: center;
 }
 
-th {
-	border: 1px solid;
-	padding-right: 25px;
-	padding-top: 10px;
-	text-align: center;
-	background-color: windowframe;
-}
-
-td {
-	border: 1px solid;
-	padding-right: 25px;
-	padding-top: 10px;
-	text-align: center;
-	background-color: silver;
-}
-
 body {
-	font-family: "Lato", sans-serif;
+	margin: 0;
+	border-bottom-color:slyblue;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
-.sidebar {
-	height: 100%;
-	width: 160px;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	background-color: #111;
-	overflow-x: hidden;
-	padding-top: 16px;
+.topnav {
+	overflow: hidden;
+	background-color: #333;
 }
 
-.sidebar a {
-	padding: 6px 8px 6px 16px;
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
 	text-decoration: none;
-	font-size: 20px;
-	color: #818181;
-	display: block;
+	font-size: 17px;
 }
 
-.sidebar a:hover {
-	color: #f1f1f1;
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
 }
 
-.main {
-	margin-left: 160px; /* Same as the width of the sidenav */
-	padding: 0px 10px;
+.topnav a.active {
+	background-color: #4CAF50;
+	color: white;
 }
-
-@media screen and (max-height: 450px) {
-	.sidebar {
-		padding-top: 15px;
-	}
-	.sidebar a {
-		font-size: 18px;
-	}
 }
 </style>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="sidebar">
-		<a href="http://localhost:9021/HibernateTest/adminLogout"><i class="fa fa-fw fa-home"></i>Logout</a>
+	<div class="topnav">
+
+		<a class="active"
+			href="http://localhost:9021/HibernateTest/adminLogout">Logout</a>
 	</div>
 	<div align="center">
 		<h2>Employee Data</h2>
@@ -93,26 +77,36 @@ body {
 				<th>AccountNo</th>
 				<th>IFSCCode</th>
 				<th>BankName</th>
-				
-			<%-- <th>Action</th>
-				<th>Action</th>--%>	
+
+				<%-- <th>Action</th>
+				<th>Action</th>--%>
 			</tr>
-			<c:forEach items="${empList}" var="empList">
+			<c:forEach items="${list}" var="list">
 				<tr>
-					<td>${empList.name}</td>
-					<td>${empList.profile}</td>
-					<td>${empList.salary}</td>
-					<td>${empList.address}</td>
+					<td>${list.name}</td>
+					<td>${list.profile}</td>
+					<td>${list.salary}</td>
+					<td>${list.address}</td>
+				</tr>
+			</c:forEach>
+			<c:forEach items="${eexlist}" var="eexlist">
+				<tr>
 					<td>${eexlist.amount}</td>
 					<td>${eexlist.desctiption}</td>
 					<td>${eexlist.billsImg}</td>
 					<td>${eexlist.date}</td>
 					<td>${eexlist.time}</td>
+				<tr>
+			</c:forEach>
+
+			<c:forEach items="${accList}" var="accList">
+
+				<tr>
 					<td>${accList.accNo}</td>
 					<td>${accList.ifscCode}</td>
 					<td>${accList.bankname}</td>
-					
-					<%-- <td>
+				</tr>
+				<%-- <td>
 						<form action="http://localhost:9021/HibernateTest/recordsToUpdate"
 							method="post">
 							<input type="hidden" value="${list.id}" name="empId"> <input
@@ -134,15 +128,10 @@ body {
 								type="hidden" value="${list.address}" name="address"> <input
 								type="submit" value="Delete Record" style="margin-left: 20px">
 						</form>
-					</td>
-				</tr>--%>
+					</td>--%>
+
 			</c:forEach>
 		</table>
-	</div>
-	<div align="center">
-		<h2>Save More Records</h2>
-		<a href="http://localhost:9021/HibernateTest/form"><i>Click
-				Here</i></a>
 	</div>
 </body>
 </html>

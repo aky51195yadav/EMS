@@ -2,6 +2,8 @@ package com.origin.service;
 
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.origin.web.AccountInfo;
 import com.origin.web.Employee;
 
 public interface EmployeeService {
@@ -25,5 +27,7 @@ public interface EmployeeService {
 	boolean userValidation(String userName, String dbUser);
 
 	Employee fetchUser(String userName, String password);
+
+	
 
 }

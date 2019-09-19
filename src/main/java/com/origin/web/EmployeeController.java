@@ -81,41 +81,26 @@ public class EmployeeController {
 	public String getSignUp() {
 		return "sign_up";
 	}
-   /**-----------------------------mapping of employee table--------------------------------------------------------------------**/
-	@RequestMapping(value = "showAll", method = RequestMethod.GET)
-	public ModelAndView showRecords() {
-		List<Employee> empList = empService.getAllRecords();
-		System.out.println(empList);
-		List<AccountInfo> accList = accService.getAllAccountRecords();
-		System.out.println(accList);
-		List<Expenses> eexlist = eexServices.getAllExpensesRecords();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("all_details");
-		mav.addObject("empList", empList);
-		mav.addObject("accList",accList);
-		mav.addObject("eexlist",eexlist);
-	
-		return mav;
-	}
-	
+
 	@RequestMapping(value = "accountUpdate", method = RequestMethod.POST)
-	public ModelAndView accountRecords(@RequestParam int accId, @RequestParam int accountNo , @RequestParam String ifsc,
+	public ModelAndView accountRecords(@RequestParam int accId, @RequestParam int accountNo, @RequestParam String ifsc,
 			@RequestParam String bankName) {
 		AccountInfo info = new AccountInfo();
 		info.setAccId(accId);
 		info.setAccountNo(accountNo);
 		info.setBankName(bankName);
 		info.setIfsc(ifsc);
-		
+
 		ModelAndView andView = new ModelAndView();
 		andView.setViewName("all_details");
 		andView.addObject("info", info);
 		return andView;
 	}
-	
+
 	@RequestMapping(value = "expensesUpdate", method = RequestMethod.POST)
-	public ModelAndView expensesRecords(@RequestParam int expId, @RequestParam String description, @RequestParam float amount,
-			@RequestParam String image,@RequestParam String date,@RequestParam String time) {
+	public ModelAndView expensesRecords(@RequestParam int expId, @RequestParam String description,
+			@RequestParam float amount, @RequestParam String image, @RequestParam String date,
+			@RequestParam String time) {
 		Expenses expenses = new Expenses();
 		expenses.setExpId(expId);
 		expenses.setDescription(description);
@@ -129,7 +114,6 @@ public class EmployeeController {
 		return andView;
 	}
 
-	
 	@RequestMapping(value = "recordsToUpdate", method = RequestMethod.POST)
 	public ModelAndView records(@RequestParam int empId, @RequestParam String empName, @RequestParam String profile,
 			@RequestParam int salary, @RequestParam String address) {
@@ -156,13 +140,13 @@ public class EmployeeController {
 		employee.setSalary(salary);
 		employee.setAddress(address);
 		empService.updateDetails(employee);
-		return showRecords();
+		return showEmployeeAllRecords();
 	}
 
 	@RequestMapping(value = "fetchIdToDelete", method = RequestMethod.POST)
 	public ModelAndView deleteRecord(@RequestParam int empId) {
 		empService.deleteEmployee(empId);
-		return showRecords();
+		return showEmployeeAllRecords();
 	}
 
 	@RequestMapping(value = "user", method = RequestMethod.GET)
@@ -170,16 +154,15 @@ public class EmployeeController {
 		return "user_login";
 	}
 
-	@RequestMapping(value = "admin", method = RequestMethod.GET)
-	public String adminLogin() {
-		return "admin_login";
-	}
-
 	@RequestMapping(value = "choice", method = RequestMethod.GET)
 	public String getChoicePage() {
 		return "login_choice";
 	}
 
+	/**
+	 * --------------------------login verify username and password for user
+	 * account----------------------------------------------
+	 **/
 	@RequestMapping(value = "userPwd", method = RequestMethod.POST)
 	public String getDetails(@RequestParam String userName, @RequestParam String password, Model model) {
 
@@ -203,6 +186,49 @@ public class EmployeeController {
 
 	}
 
+	/** ------------------admin login page mapping---------------------- **/
+	@RequestMapping(value = "admin", method = RequestMethod.GET)
+	public String adminLogin() {
+		return "admin_login";
+	}
+
+	/**
+	 * ------------------------login verifaye username and password for
+	 * admin-------------------------------------------
+	 **/
+	@RequestMapping(value = "loginAdmin", method = RequestMethod.POST)
+	public String loginForAdmin(@RequestParam String userName, @RequestParam String password, ModelMap modelMap) {
+		if (userName.equalsIgnoreCase("HelloAdmin") && password.equalsIgnoreCase("12345")) {
+			session.setAttribute("username", userName);
+			return "all_details";
+		} else {
+			modelMap.put("error", "Invalid Account");
+			return "admin_login";
+		}
+	}
+
+	/**
+	 * -------------------------mapping of show table
+	 * jsp-----------------------------------------------------
+	 **/
+	@RequestMapping(value = "showtable", method = RequestMethod.GET)
+	public ModelAndView showEmployeeAllRecords() {
+		List<Employee> list = empService.getAllRecords();
+		List<AccountInfo> accList = accService.getAllAccountRecords();
+		List<Expenses> eexlist = eexServices.getAllExpensesRecords();
+		ModelAndView View = new ModelAndView();
+		View.setViewName("all_details");
+		View.addObject("list", list);
+		View.addObject("accList", accList);
+		View.addObject("eexlist", eexlist);
+
+		return View;
+	}
+
+	/**
+	 * -----------------------------get employee id based on employee name and
+	 * address-----------------------------------------------
+	 **/
 	@RequestMapping(value = "getDetails", method = RequestMethod.POST)
 	public ModelAndView getNameAddress(@RequestParam String name, @RequestParam String address) {
 		Employee emp = empService.fetchRecord(name, address);
@@ -213,6 +239,9 @@ public class EmployeeController {
 		return mav;
 	}
 
+	/**
+	 * -------------------------------------------------------------------------
+	 **/
 	@RequestMapping(value = "getEmpId", method = RequestMethod.POST)
 	public ModelAndView getEmpId(@RequestParam int empId) {
 		Employee emp = empService.fetchRecordTbl_Employee(empId);
@@ -305,23 +334,7 @@ public class EmployeeController {
 		return "admin_login";
 	}
 
-	/**
-	 * ----------------------login maping for
-	 * user-------------------------------------------------
-	 **/
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(@RequestParam("username") String username, @RequestParam("password") String password,
-			HttpSession session, ModelMap modelMap) {
-		if (username.equalsIgnoreCase("acc1") && password.equalsIgnoreCase("123")) {
-			session.setAttribute("username", username);
-			return "account/success";
-
-		} else {
-			modelMap.put("error", "Invalid Account");
-			return "account/index";
-		}
-	}
-
+	
 	/*
 	 * @RequestMapping(value="login") public ModelAndView logout(HttpServletRequest
 	 * request, HttpServletResponse response) {

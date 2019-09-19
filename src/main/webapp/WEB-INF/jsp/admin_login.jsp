@@ -26,7 +26,7 @@ input {
 <body>
 	<div align="center">
 
-		<form action="http://localhost:9021/HibernateTest/userPwd"
+		<form action="http://localhost:9021/HibernateTest/loginAdmin"
 			method="post">
 			<script type="text/javascript">
 				var msg = "${error}"
