@@ -58,9 +58,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee fetchRecordTbl_Employee(int empId) {
+	public Employee fetchRecordTbl_Employee(int employee) {
 
-		Optional<Employee> option = employeeRepo.findById(empId);
+		Optional<Employee> option = employeeRepo.findById(employee);
 		if (option.isPresent()) {
 
 			return option.get();
@@ -86,6 +86,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee fetchUser(String userName, String pwd) {
 		System.out.println("vdfhjkvbdfjvgbf ghdv ");
 		return employeeRepo.findByUserNameAndPwd(userName, pwd);
+	}
+
+	@Override
+	public List<Employee> getAllEmployeeRecords() {
+		// TODO Auto-generated method stub
+		return employeeRepo.findAll();
 	}
 
 }

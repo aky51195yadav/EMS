@@ -19,7 +19,7 @@ background-color:red;
 		<h1>Thank you</h1>
 		<table>
 			<tr>
-				<th><a href="http://localhost:6696/test/homepage" class="host1">Home Page</a></th>
+				<th><a href="http://localhost:9021/HibernateTest/homepage" class="host1">Home Page</a></th>
 
 			</tr>
 		</table>

@@ -5,10 +5,10 @@
 <html>
 <head>
 <style>
-body
-{
-border-bottom-color:slyblue;
+body {
+	border-bottom-color: slyblue;
 }
+
 a {
 	text-decoration: none;
 	color: blue;
@@ -23,7 +23,7 @@ table, th, td {
 
 body {
 	margin: 0;
-	border-bottom-color:slyblue;
+	border-bottom-color: slyblue;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -50,6 +50,30 @@ body {
 	background-color: #4CAF50;
 	color: white;
 }
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	background-color: white;
+}
+
+th {
+	padding: 8px 8px 8px 8px;
+	background-color: gray;
+	color: white;
+}
+
+td {
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+h2 {
+	text-decoration: none;
+}
+
+.active {
+	padding-top: 1px;
 }
 </style>
 <meta charset="ISO-8859-1">
@@ -63,7 +87,7 @@ body {
 	</div>
 	<div align="center">
 		<h2>Employee Data</h2>
-		<table>
+		<table style="width: 70%">
 			<tr>
 				<th>Employee Name</th>
 				<th>Profile</th>
@@ -81,32 +105,28 @@ body {
 				<%-- <th>Action</th>
 				<th>Action</th>--%>
 			</tr>
-			<c:forEach items="${list}" var="list">
-				<tr>
-					<td>${list.name}</td>
-					<td>${list.profile}</td>
-					<td>${list.salary}</td>
-					<td>${list.address}</td>
-				</tr>
-			</c:forEach>
-			<c:forEach items="${eexlist}" var="eexlist">
-				<tr>
-					<td>${eexlist.amount}</td>
-					<td>${eexlist.desctiption}</td>
-					<td>${eexlist.billsImg}</td>
-					<td>${eexlist.date}</td>
-					<td>${eexlist.time}</td>
-				<tr>
-			</c:forEach>
 
-			<c:forEach items="${accList}" var="accList">
+			<tr>
+				<td>${emp.name}</td>
+				<td>${emp.profile}</td>
+				<td>${emp.salary}</td>
+				<td>${emp.address}</td>
 
-				<tr>
-					<td>${accList.accNo}</td>
-					<td>${accList.ifscCode}</td>
-					<td>${accList.bankname}</td>
-				</tr>
-				<%-- <td>
+
+
+
+				<td>${eex.amount}</td>
+				<td>${eex.description}</td>
+				<td>${eex.image}</td>
+				<td>${eex.date}</td>
+				<td>${eex.time}</td>
+
+
+				<td>${info.accountNo}</td>
+				<td>${info.ifsc}</td>
+				<td>${info.bankName}</td>
+			</tr>
+			<%-- <td>
 						<form action="http://localhost:9021/HibernateTest/recordsToUpdate"
 							method="post">
 							<input type="hidden" value="${list.id}" name="empId"> <input
@@ -130,7 +150,7 @@ body {
 						</form>
 					</td>--%>
 
-			</c:forEach>
+
 		</table>
 	</div>
 </body>

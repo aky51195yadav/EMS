@@ -26,7 +26,7 @@ input {
 <body>
 	<div align="center">
 
-		<form action="http://localhost:9021/HibernateTest/loginAdmin"
+		<form action="http://localhost:9021/HibernateTest/detailsAdminById"
 			method="post">
 			<script type="text/javascript">
 				var msg = "${error}"
@@ -40,7 +40,7 @@ input {
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" placeholder="Enter password"
+					<td><input type="password" placeholder="Enter password"
 						required="required" name="password"></td>
 				</tr>
 				<tr>

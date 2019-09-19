@@ -15,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,7 +41,8 @@ public class EmployeeController {
 
 		return "emp_form";
 	}
-
+   
+	/**----------------------save the employee data in three tables------------------------------------------------**/
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String empDetails(@RequestParam String name, @RequestParam String profile, @RequestParam int salary,
 			@RequestParam String address, @RequestParam Integer accountNo, @RequestParam String ifsc,
@@ -74,7 +74,7 @@ public class EmployeeController {
 		eex.setTime(time);
 		eex.setEmployee(emp);
 		eexServices.saveEmployee(eex);
-		return fillDetails();
+		return "thanku";
 	}
 
 	@RequestMapping(value = "signUp", method = RequestMethod.GET)
@@ -128,32 +128,28 @@ public class EmployeeController {
 		mav.addObject("employee", employee);
 		return mav;
 	}
-
-	@RequestMapping(value = "fetchUpdatedRecord", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView saveUpdatedRecords(@RequestParam int id, @RequestParam String name,
-			@RequestParam String profile, @RequestParam int salary, @RequestParam String address) {
-		Employee employee = new Employee();
-		employee.setId(id);
-		employee.setName(name);
-		employee.setProfile(profile);
-		employee.setSalary(salary);
-		employee.setAddress(address);
-		empService.updateDetails(employee);
-		return showEmployeeAllRecords();
-	}
-
-	@RequestMapping(value = "fetchIdToDelete", method = RequestMethod.POST)
-	public ModelAndView deleteRecord(@RequestParam int empId) {
-		empService.deleteEmployee(empId);
-		return showEmployeeAllRecords();
-	}
+	/*
+	 * @RequestMapping(value = "fetchUpdatedRecord", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public ModelAndView saveUpdatedRecords(@RequestParam int
+	 * id, @RequestParam String name,
+	 * 
+	 * @RequestParam String profile, @RequestParam int salary, @RequestParam String
+	 * address) { Employee employee = new Employee(); employee.setId(id);
+	 * employee.setName(name); employee.setProfile(profile);
+	 * employee.setSalary(salary); employee.setAddress(address);
+	 * empService.updateDetails(employee); return showEmployeeAllRecords(); }
+	 * 
+	 * @RequestMapping(value = "fetchIdToDelete", method = RequestMethod.POST)
+	 * public ModelAndView deleteRecord(@RequestParam int empId) {
+	 * empService.deleteEmployee(empId); return showEmployeeAllRecords(); }
+	 */
 
 	@RequestMapping(value = "user", method = RequestMethod.GET)
 	public String userLogin() {
 		return "user_login";
 	}
-
+     /**----------------login_choice page mapping--------------------------**/
 	@RequestMapping(value = "choice", method = RequestMethod.GET)
 	public String getChoicePage() {
 		return "login_choice";
@@ -196,33 +192,15 @@ public class EmployeeController {
 	 * ------------------------login verifaye username and password for
 	 * admin-------------------------------------------
 	 **/
-	@RequestMapping(value = "loginAdmin", method = RequestMethod.POST)
+	@RequestMapping(value = "detailsAdminById", method = RequestMethod.POST)
 	public String loginForAdmin(@RequestParam String userName, @RequestParam String password, ModelMap modelMap) {
 		if (userName.equalsIgnoreCase("HelloAdmin") && password.equalsIgnoreCase("12345")) {
 			session.setAttribute("username", userName);
-			return "all_details";
+			return "enter_nameaddress";
 		} else {
 			modelMap.put("error", "Invalid Account");
 			return "admin_login";
 		}
-	}
-
-	/**
-	 * -------------------------mapping of show table
-	 * jsp-----------------------------------------------------
-	 **/
-	@RequestMapping(value = "showtable", method = RequestMethod.GET)
-	public ModelAndView showEmployeeAllRecords() {
-		List<Employee> list = empService.getAllRecords();
-		List<AccountInfo> accList = accService.getAllAccountRecords();
-		List<Expenses> eexlist = eexServices.getAllExpensesRecords();
-		ModelAndView View = new ModelAndView();
-		View.setViewName("all_details");
-		View.addObject("list", list);
-		View.addObject("accList", accList);
-		View.addObject("eexlist", eexlist);
-
-		return View;
 	}
 
 	/**
@@ -249,7 +227,7 @@ public class EmployeeController {
 		Expenses eex = eexServices.fetchRecordEmployee_Expenses(empId);
 
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("emp_details");
+		mav.setViewName("all_details");
 		mav.addObject("emp", emp);
 		mav.addObject("info", info);
 		mav.addObject("eex", eex);
@@ -261,12 +239,17 @@ public class EmployeeController {
 		return "enter_nameaddress";
 	}
 
-	@RequestMapping(value = "empId", method = RequestMethod.POST)
-	public ModelAndView recordById(@RequestParam int empId) {
+	/**
+	 * -------------------------mapping of show table
+	 * jsp-----------------------------------------------------
+	 **/
 
-		Employee emp = empService.fetchRecordTbl_Employee(empId);
-		AccountInfo info = accService.fetchRecordAccountInfo(empId);
-		Expenses eex = eexServices.fetchRecordEmployee_Expenses(empId);
+	@RequestMapping(value = "empId", method = RequestMethod.POST)
+	public ModelAndView recordById(@RequestParam int employee) {
+
+		Employee emp = empService.fetchRecordTbl_Employee(employee);
+		AccountInfo info = accService.fetchRecordAccountInfo(employee);
+		Expenses eex = eexServices.fetchRecordEmployee_Expenses(employee);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("description_fill_byUser");
 		mav.addObject("emp", emp);
@@ -333,8 +316,12 @@ public class EmployeeController {
 		session.invalidate();
 		return "admin_login";
 	}
-
 	
+	@RequestMapping(value = "homepage", method = RequestMethod.GET)
+	public String dataChange() {
+		return "thanku";
+	}
+
 	/*
 	 * @RequestMapping(value="login") public ModelAndView logout(HttpServletRequest
 	 * request, HttpServletResponse response) {

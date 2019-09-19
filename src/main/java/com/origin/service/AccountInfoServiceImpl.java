@@ -15,8 +15,8 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	AccountInfoRepo accRepo;
 
 	@Override
-	public AccountInfo fetchRecordAccountInfo(int empId) {
-		Optional<AccountInfo> option = accRepo.findById(empId);
+	public AccountInfo fetchRecordAccountInfo(int employee) {
+		Optional<AccountInfo> option = accRepo.findById(employee);
 		if (option.isPresent()) {
 			return option.get();
 		}
@@ -44,7 +44,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	@Override
 	public List<AccountInfo> getAllAccountRecords() {
 		// TODO Auto-generated method stub
-		return null;
+		return accRepo.findAll() ;
 	}
 
 	

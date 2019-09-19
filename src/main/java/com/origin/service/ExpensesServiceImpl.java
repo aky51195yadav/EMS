@@ -63,8 +63,8 @@ public class ExpensesServiceImpl implements ExpensesService {
 	}
 
 	@Override
-	public Expenses fetchRecordEmployee_Expenses(int empId) {
-		Optional<Expenses> option = eexpRepo.findById(empId);
+	public Expenses fetchRecordEmployee_Expenses(int employee) {
+		Optional<Expenses> option = eexpRepo.findById(employee);
 		if (option.isPresent()) {
 			return option.get();
 		}
@@ -73,14 +73,19 @@ public class ExpensesServiceImpl implements ExpensesService {
 
 	
 
-	@Override
-	public List<Expenses> getAllExpensesRecords(int expId) {
+/*	public List<Expenses> getAllExpensesRecords(int expId) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		return eexpRepo.existsById();
+	}*/
 
 	@Override
 	public List<Expenses> getAllExpensesRecords() {
+		// TODO Auto-generated method stub
+		return eexpRepo.findAll();
+	}
+
+	@Override
+	public List<Expenses> getAllExpensesRecords(int expId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

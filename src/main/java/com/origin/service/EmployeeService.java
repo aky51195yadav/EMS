@@ -20,13 +20,15 @@ public interface EmployeeService {
 
 	Employee fetchRecord(String name, String address);
 
-	Employee fetchRecordTbl_Employee(int empId);
+	Employee fetchRecordTbl_Employee(int employee);
 
 	boolean pwdValidation(String password, String dbPwd);
 
 	boolean userValidation(String userName, String dbUser);
 
 	Employee fetchUser(String userName, String password);
+
+	List<Employee> getAllEmployeeRecords();
 
 	
 
