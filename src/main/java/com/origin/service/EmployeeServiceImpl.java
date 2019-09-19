@@ -104,13 +104,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public String getExtension(MultipartFile file) {
 
-		return "."+FilenameUtils.getExtension(file.getOriginalFilename());
+		return "." + FilenameUtils.getExtension(file.getOriginalFilename());
 	}
 
 	@Override
 	public void checkSession(String userName) {
-		
-		
+
 	}
+
+	@Override
+	public int saveEmpId(Integer id) {
+		return id;
+
+	}
+
+	
 
 }

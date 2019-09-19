@@ -37,6 +37,14 @@ public class Expenses {
 	@JoinColumn(name = "EmpId")
 	private Employee employee;
 
+	public Expenses(Employee emp) {
+		this.employee = emp;
+	}
+
+	public Expenses() {
+		super();
+	}
+
 	public Integer getExpId() {
 		return expId;
 	}
@@ -96,7 +104,7 @@ public class Expenses {
 	@Override
 	public String toString() {
 		return "Expenses [expId=" + expId + ", description=" + description + ", amount=" + amount + ", image=" + image
-				+ ", date=" + date + ", time=" + time + ", employee=" + employee + "]";
+				+ ", date=" + date + ", time=" + time + "]";
 	}
 
 }

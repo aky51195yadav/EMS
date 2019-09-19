@@ -75,9 +75,8 @@ tr {
 <body>
 
 	<div class="sidenav">
-		<a href="http://localhost:9021/HibernateTest/onlyName">Profile</a><a
-			href="">Images</a> <a href="">Amount</a> <a href="">Delete</a> <a
-			href="">Update</a><a
+		<a href="http://localhost:9021/HibernateTest/onlyName">Profile</a> <a
+			href="http://localhost:9021/HibernateTest/userRecord">Record</a> <a
 			href="http://localhost:9021/HibernateTest/logout">Logout</a>
 	</div>
 
@@ -87,20 +86,14 @@ tr {
 	<form action="http://localhost:9021/HibernateTest/getDescription"
 		method="post" enctype="multipart/form-data">
 		<div align="center">
-			Welcome ${emp.name}
+			Welcome ${sessionScope.empId}
 			<h3>Enter Description and Amount</h3>
 			<table>
+
+
 				<tr>
 					<td><input type="hidden" value="${emp.id}" readonly="readonly"
 						name="empId"></td>
-				</tr>
-
-				<tr>
-					<td><input type="hidden" value="${emp.name}"
-						readonly="readonly" name="name"></td>
-				</tr>
-				<tr>
-					<td><input type="hidden" value="${emp.address}"></td>
 				</tr>
 				<tr>
 					<td>Amount:</td>
@@ -124,26 +117,6 @@ tr {
 					<td><textarea rows="4" cols="30" name="desc">Enter text here...</textarea></td>
 				</tr>
 
-				<tr>
-					<td><input type="hidden" value="${emp.id}" name="empId"></td>
-				</tr>
-
-				<tr>
-					<td><input type="hidden" value="${emp.profile}"></td>
-				</tr>
-				<tr>
-					<td><input type="hidden" value="${emp.salary}"></td>
-				</tr>
-				<tr>
-					<td><input type="hidden" value="${info.bankName}"></td>
-				</tr>
-				<tr>
-
-					<td><input type="hidden" value="${info.accountNo}"> <br>
-				</tr>
-				<tr>
-					<td><input type="hidden" value="${info.ifsc}"></td>
-				</tr>
 
 				<tr>
 					<td><input type="submit" value="Update"></td>

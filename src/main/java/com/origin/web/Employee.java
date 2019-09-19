@@ -17,6 +17,15 @@ public class Employee {
 	@Column(name = "Empid")
 	private Integer id;
 
+	public Employee(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	public Employee() {
+		super();
+	}
+
 	@Column(name = "EmpName")
 	private String name;
 

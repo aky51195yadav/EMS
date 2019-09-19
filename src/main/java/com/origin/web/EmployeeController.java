@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,9 +31,6 @@ public class EmployeeController {
 
 	@Autowired
 	private HttpSession session;
-
-	@Autowired
-	private HttpServletResponse response;
 
 	@RequestMapping(value = "form", method = RequestMethod.GET)
 	public String fillDetails() {
@@ -112,6 +108,7 @@ public class EmployeeController {
 	@ResponseBody
 	public ModelAndView saveUpdatedRecords(@RequestParam int id, @RequestParam String name,
 			@RequestParam String profile, @RequestParam int salary, @RequestParam String address) {
+
 		Employee employee = new Employee();
 		employee.setId(id);
 		employee.setName(name);
@@ -151,6 +148,7 @@ public class EmployeeController {
 		if (emp != null) {
 			String dbUser = emp.getUserName();
 			String dbPwd = emp.getPwd();
+
 			boolean b = empService.userValidation(userName, dbUser);
 			boolean b1 = empService.pwdValidation(password, dbPwd);
 			if (!b) {
@@ -168,11 +166,10 @@ public class EmployeeController {
 			mav.setViewName("user_login");
 			return mav;
 		}
-
-		session.setAttribute("emp", emp);
-		// checkSession(userName);
+		int empId = emp.getId();
+		session.setAttribute("empId", empId);
 		mav.setViewName("description_fill_byUser");
-		// mav.addObject("emp", emp);
+		mav.addObject("emp", emp);
 		return mav;
 	}
 
@@ -224,7 +221,6 @@ public class EmployeeController {
 	public String saveUpdatedRecord(@RequestParam int empId, @RequestParam("amount") Float amount,
 			@RequestParam MultipartFile file, @RequestParam String date, @RequestParam String time,
 			@RequestParam String desc) {
-
 		String string = empService.getRandomString();
 		String extension = empService.getExtension(file);
 		String fileName = string + extension;
@@ -248,7 +244,12 @@ public class EmployeeController {
 		eexp.setEmployee(emp);
 		eexServices.updateDetails(eexp);
 		System.out.println("updated save");
-		System.out.println(session.getAttribute("user"));
+		/*if (session.getAttribute("empId") != null) {
+
+			return "description_fill_byUser";
+
+		}*/
+		// session.removeAttribute("empId");
 		return "description_fill_byUser";
 	}
 
@@ -264,14 +265,29 @@ public class EmployeeController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("user");
 		}
-
 	}
+
 	@RequestMapping(value = "onlyName", method = RequestMethod.GET)
-	public String showName()
-	{
+	public String showName() {
 		return "show_only_name";
 	}
 
+	@RequestMapping(value = "userRecord", method = RequestMethod.GET)
+	public ModelAndView showRecord() {
+		int empId = (int) session.getAttribute("empId");
+		List<Expenses> list = eexServices.fetchExpensesByEmpId(empId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("user_record");
+		return mav;
+	}
+
+	@RequestMapping(value = "recordToDelete", method = RequestMethod.POST)
+	public ModelAndView recordToDelete(@RequestParam("expId") int expId) {
+		eexServices.deleteByExpId(expId);
+
+		return showRecord();
+	}
 	/*
 	 * @RequestMapping(value="getNewDetails" ,method = RequestMethod.POST) public
 	 * String saveSalaryAndLocation(@RequestParam String empName,@RequestParam

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.origin.web.Employee;
 import com.origin.web.Expenses;
 
 public interface ExpensesService {
@@ -17,5 +18,9 @@ public interface ExpensesService {
 	List<Expenses> getAllRecords();
 
 	Expenses fetchExpensesById(int empId);
+
+	List<Expenses> fetchExpensesByEmpId(int empId);
+
+	void deleteByExpId(int expId);
 
 }

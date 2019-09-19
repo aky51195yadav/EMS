@@ -32,4 +32,6 @@ public interface EmployeeService {
 
 	void checkSession(String userName);
 
+	int saveEmpId(Integer id);
+
 }

@@ -9,6 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${emp.name}</h1>
+	<h1>${sessionScope.user}</h1>
 </body>
 </html>

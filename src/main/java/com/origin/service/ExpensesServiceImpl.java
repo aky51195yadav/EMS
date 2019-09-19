@@ -3,6 +3,7 @@ package com.origin.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.apache.commons.io.FilenameUtils;
@@ -11,9 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.origin.repo.ExpensesRepo;
+import com.origin.web.Employee;
 import com.origin.web.Expenses;
-
-import java.util.Optional;
 
 @Service
 public class ExpensesServiceImpl implements ExpensesService {
@@ -69,6 +69,20 @@ public class ExpensesServiceImpl implements ExpensesService {
 			return option.get();
 		}
 		return new Expenses();
+	}
+
+	@Override
+	public List<Expenses> fetchExpensesByEmpId(int empId) {
+		Employee emp = new Employee(empId);
+		List<Expenses> list = eexpRepo.findByEmployee(emp);
+		System.out.println("list : " + list);
+		return list;
+	}
+
+	@Override
+	public void deleteByExpId(int expId) {
+		eexpRepo.deleteById(expId);
+
 	}
 
 }
