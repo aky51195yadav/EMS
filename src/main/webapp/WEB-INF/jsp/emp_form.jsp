@@ -86,6 +86,10 @@ a {
 					<td><input type="time" name="time"></td>
 				</tr>
 				<tr>
+					<td>Expenses:</td>
+					<td><input type="text" name="expenseType"></td>
+				</tr>
+				<tr>
 					<td>Description:</td>
 					<td><textarea rows="4" cols="30" name="desc">Enter text here...</textarea></td>
 				</tr>

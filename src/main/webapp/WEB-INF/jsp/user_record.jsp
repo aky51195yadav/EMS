@@ -64,7 +64,7 @@ td {
 							method="post">
 
 							<input type="hidden" value="${l.expId}" name="expId"> <input
-								type="text" value="${l.description}" name="desc"> <input
+								type="hidden" value="${l.description}" name="desc"> <input
 								type="hidden" value="${l.amount}" name="amount"> <input
 								type="hidden" value="${l.image}" name="image"> <input
 								type="hidden" value="${l.date}" name="date"> <input

@@ -66,17 +66,13 @@ table {
 	color: #FFFFF;
 	background-color: #87CEFA;
 }
-
-tr {
-	padding: 15px;
-}
 </style>
 </head>
 <body>
 
 	<div class="sidenav">
 		<a href="http://localhost:9021/HibernateTest/onlyName">Profile</a> <a
-			href="http://localhost:9021/HibernateTest/userRecord">Record</a> <a
+			href="http://localhost:9021/HibernateTest/totalRecords">Record</a> <a
 			href="http://localhost:9021/HibernateTest/logout">Logout</a>
 	</div>
 
@@ -94,6 +90,18 @@ tr {
 				<tr>
 					<td><input type="hidden" value="${emp.id}" readonly="readonly"
 						name="empId"></td>
+				</tr>
+				<tr>
+
+					<td>Expenses</td>
+					<td><select name="expenseType">
+							<option value="Food">Food</option>
+							<option value="Travel">Travel</option>
+							<option value="local Conveyance">Local Conveyance</option>
+							<option value="Mobile Expenses">Mobile Expenses</option>
+							<option></option>
+					</select></td>
+
 				</tr>
 				<tr>
 					<td>Amount:</td>
@@ -116,8 +124,6 @@ tr {
 					<td>Description:</td>
 					<td><textarea rows="4" cols="30" name="desc">Enter text here...</textarea></td>
 				</tr>
-
-
 				<tr>
 					<td><input type="submit" value="Update"></td>
 				</tr>

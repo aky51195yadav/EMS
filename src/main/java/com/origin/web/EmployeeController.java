@@ -43,7 +43,7 @@ public class EmployeeController {
 			@RequestParam String address, @RequestParam Integer accountNo, @RequestParam String ifsc,
 			@RequestParam String bankName, @RequestParam String desc, @RequestParam Float amount,
 			@RequestParam String date, @RequestParam String time, @RequestParam("image") MultipartFile file,
-			@RequestParam String userName, @RequestParam String pwd) {
+			@RequestParam String userName, @RequestParam String pwd, @RequestParam String expenseType) {
 		String image = eexServices.saveFile(file);
 		Employee emp = new Employee();
 		emp.setName(name);
@@ -67,6 +67,7 @@ public class EmployeeController {
 		eex.setImage(image);
 		eex.setDate(date);
 		eex.setTime(time);
+		eex.setExpenseType(expenseType);
 		eex.setEmployee(emp);
 		eexServices.saveEmployee(eex);
 		return fillDetails();
@@ -218,9 +219,11 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "getDescription", method = RequestMethod.POST)
-	public String saveUpdatedRecord(@RequestParam int empId, @RequestParam("amount") Float amount,
-			@RequestParam MultipartFile file, @RequestParam String date, @RequestParam String time,
-			@RequestParam String desc) {
+	public String saveUpdatedRecord(@RequestParam("empId") int empId, @RequestParam("amount") Float amount,
+			@RequestParam MultipartFile file, @RequestParam("date") String date, @RequestParam("time") String time,
+			@RequestParam("desc") String desc, @RequestParam("expenseType") String expenseType) {
+		System.out.println(expenseType);
+		System.out.println(expenseType);
 		String string = empService.getRandomString();
 		String extension = empService.getExtension(file);
 		String fileName = string + extension;
@@ -236,6 +239,7 @@ public class EmployeeController {
 		Employee emp = empService.fetchEmployeeById(empId);
 
 		Expenses eexp = new Expenses();
+		eexp.setExpenseType(expenseType);
 		eexp.setImage(fileName);
 		eexp.setAmount(amount);
 		eexp.setDate(date);
@@ -244,11 +248,13 @@ public class EmployeeController {
 		eexp.setEmployee(emp);
 		eexServices.updateDetails(eexp);
 		System.out.println("updated save");
-		/*if (session.getAttribute("empId") != null) {
-
-			return "description_fill_byUser";
-
-		}*/
+		/*
+		 * if (session.getAttribute("empId") != null) {
+		 * 
+		 * return "description_fill_byUser";
+		 * 
+		 * }
+		 */
 		// session.removeAttribute("empId");
 		return "description_fill_byUser";
 	}
@@ -288,6 +294,21 @@ public class EmployeeController {
 
 		return showRecord();
 	}
+
+	@RequestMapping(value = "totalRecords", method = RequestMethod.GET)
+	public ModelAndView recordsPerUser() {
+
+		int empId = (int) session.getAttribute("empId");
+		List<Expenses> list = eexServices.fetchExpensesByEmpId(empId);
+
+		EmployeeCalculations empCal = eexServices.expensesCalculation(list);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("short_user_details");
+		mav.addObject("empCal", empCal);
+		return mav;
+
+	}
+
 	/*
 	 * @RequestMapping(value="getNewDetails" ,method = RequestMethod.POST) public
 	 * String saveSalaryAndLocation(@RequestParam String empName,@RequestParam

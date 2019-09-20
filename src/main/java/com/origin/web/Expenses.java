@@ -33,6 +33,17 @@ public class Expenses {
 	@Column(name = "Time")
 	private String time;
 
+	@Column(name = "ExpenseType")
+	private String expenseType;
+
+	public String getExpenseType() {
+		return expenseType;
+	}
+
+	public void setExpenseType(String expenseType) {
+		this.expenseType = expenseType;
+	}
+
 	@OneToOne
 	@JoinColumn(name = "EmpId")
 	private Employee employee;
@@ -104,7 +115,7 @@ public class Expenses {
 	@Override
 	public String toString() {
 		return "Expenses [expId=" + expId + ", description=" + description + ", amount=" + amount + ", image=" + image
-				+ ", date=" + date + ", time=" + time + "]";
+				+ ", date=" + date + ", time=" + time + ", expenseType=" + expenseType + "]";
 	}
 
 }
