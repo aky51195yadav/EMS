@@ -38,27 +38,10 @@ td {
 					<th>Action</th>
 				</tr>
 
-
 				<tr>
-					<td>${empCal.expenseFood}</td>
-					<td>${empCal.noOfFoodBill}</td>
-					<td>${empCal.totalFoodAmount}</td>
-
+					<td>${empCal.expenseType }</td>
 				</tr>
 
-				<tr>
-					<td>${empCal.expenseFood}</td>
-					<td>${empCal.noOfFoodBill}</td>
-					<td>${empCal.totalFoodAmount}</td>
-
-				</tr>
-
-				<tr>
-					<td>${empCal.expenseFood}</td>
-					<td>${empCal.noOfFoodBill}</td>
-					<td>${empCal.totalFoodAmount}</td>
-
-				</tr>
 
 			</table>
 

@@ -3,17 +3,21 @@ package com.origin.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.origin.repo.ExpensesRepo;
 import com.origin.web.Employee;
 import com.origin.web.EmployeeCalculations;
-
 import com.origin.web.Expenses;
 
 @Service
@@ -85,82 +89,43 @@ public class ExpensesServiceImpl implements ExpensesService {
 
 	@Override
 	public EmployeeCalculations expensesCalculation(List<Expenses> list) {
-		// HashMap<String, String> empExpenseType = new HashMap<String, String>();
-		List<EmployeeCalculations> lists = new ArrayList<EmployeeCalculations>();
-
-		EmployeeCalculations empCal = new EmployeeCalculations();
-
-		int noOfFoodBill = 0;
-		int noOfTravelBill = 0;
-		int noOfLocalConvncBill = 0;
-		int noOfMobileBill = 0;
 
 		float totalFoodAmount = 0;
 		float totalTravelAmount = 0;
 		float totalLocalConvncAmount = 0;
 		float totalMobileAmount = 0;
 
-		String expenseFood = null;
-		String expenseTravel = null;
-		String expenseLocal = null;
-		String expenseMobile = null;
+		int foodBills = 0;
+		int travelBills = 0;
+		int localConvncBills = 0;
+		int mobileBills = 0;
 
-		for (int i = 0; i < list.size(); i++) {
-			Expenses eexp = list.get(i);
-			if (eexp != null) {
-				if (eexp.getExpenseType().equalsIgnoreCase("Food")) {
-					expenseFood = eexp.getExpenseType();
-					if (eexp.getImage() != null) {
-						noOfFoodBill = noOfFoodBill + 1;
-					}
-					if (eexp.getAmount() != null) {
-						totalFoodAmount = totalFoodAmount + eexp.getAmount();
-					}
-				}
-				if (eexp.getExpenseType().equalsIgnoreCase("Travel")) {
-					expenseTravel = eexp.getExpenseType();
-					if (eexp.getImage() != null) {
-						noOfTravelBill = noOfTravelBill + 1;
-					}
-					if (eexp.getAmount() != null) {
-						totalTravelAmount = totalTravelAmount + eexp.getAmount();
-					}
-				}
-				if (eexp.getExpenseType().equalsIgnoreCase("local Conveyance")) {
-					expenseLocal = eexp.getExpenseType();
-					if (eexp.getImage() != null) {
-						noOfLocalConvncBill = noOfLocalConvncBill + 1;
-					}
-					if (eexp.getAmount() != null) {
-						totalLocalConvncAmount = totalLocalConvncAmount + eexp.getAmount();
-					}
-				}
-				if (eexp.getExpenseType().equalsIgnoreCase("Mobile Expenses")) {
-					expenseMobile = eexp.getExpenseType();
-					if (eexp.getImage() != null) {
-						noOfMobileBill = noOfMobileBill + 1;
-					}
-					if (eexp.getAmount() != null) {
-						totalMobileAmount = totalMobileAmount + eexp.getAmount();
-					}
+		EmployeeCalculations empCal = new EmployeeCalculations();
+
+		Map<String, List<Expenses>> map = new HashMap<>();
+
+		for (Expenses exp : list) {
+			String expenseType = exp.getExpenseType();
+			if (expenseType != null) {
+				if (!map.containsKey(expenseType)) {
+					List<Expenses> newExpenseList = new ArrayList<Expenses>();
+					newExpenseList.add(exp);
+					map.put(expenseType, newExpenseList);
+					System.out.println("new added");
+				} else {
+					List<Expenses> expenseList = map.get(expenseType);
+					expenseList.add(exp);
 				}
 			}
 		}
-
-		empCal.setExpenseFood(expenseFood);
-		empCal.setExpenseLocal(expenseLocal);
-		empCal.setExpenseTravel(expenseTravel);
-		empCal.setExpenseMobile(expenseMobile);
-		empCal.setNoOfFoodBill(noOfFoodBill);
-		empCal.setTotalFoodAmount(totalFoodAmount);
-		empCal.setNoOfLocalConvncBill(noOfLocalConvncBill);
-		empCal.setTotalLocalConvncAmount(totalLocalConvncAmount);
-		empCal.setNoOfMobileBill(noOfMobileBill);
-		empCal.setTotalMobileAmount(totalMobileAmount);
-		empCal.setNoOfTravelBill(noOfTravelBill);
-		empCal.setTotalTravelAmount(totalTravelAmount);
+		System.out.println(map + "Validation");
+		System.out.println(map.keySet());
+		System.out.println(map.values());
+		Set<String> keys = map.keySet();
+		for (String key : keys) {
+			List<Expenses> amountList = map.get(key);
+		}
 
 		return empCal;
 	}
-
 }

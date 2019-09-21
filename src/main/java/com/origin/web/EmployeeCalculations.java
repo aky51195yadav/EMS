@@ -1,5 +1,7 @@
 package com.origin.web;
 
+import java.util.List;
+
 public class EmployeeCalculations {
 
 	private int noOfFoodBill;
@@ -19,6 +21,8 @@ public class EmployeeCalculations {
 	private float totalMobileAmount;
 
 	private String expenseFood;
+
+	private List<String> expenseType;
 
 	public String getExpenseFood() {
 		return expenseFood;
@@ -128,6 +132,14 @@ public class EmployeeCalculations {
 				+ ", totalLocalConvncAmount=" + totalLocalConvncAmount + ", totalMobileAmount=" + totalMobileAmount
 				+ ", expenseFood=" + expenseFood + ", expenseTravel=" + expenseTravel + ", expenseLocal=" + expenseLocal
 				+ ", expenseMobile=" + expenseMobile + "]";
+	}
+
+	public List<String> getExpenseType() {
+		return expenseType;
+	}
+
+	public void setExpenseType(List<String> expenseType) {
+		this.expenseType = expenseType;
 	}
 
 }
