@@ -16,7 +16,7 @@ background-color:red;
 <body>
 
 	<div align="center">
-		<h1>Thank you</h1>
+		<h1>your bills is amount: ${Totalcost} is approve. </h1>
 		<table>
 			<tr>
 				<th><a href="http://localhost:9021/HibernateTest/homepage" class="host1">Home Page</a></th>

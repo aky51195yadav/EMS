@@ -13,4 +13,11 @@ import com.origin.web.Expenses;
 public interface ExpensesRepo extends JpaRepository<Expenses, Integer> {
 
 	Optional<List<Expenses>> findAllByEmployee(Employee employee);
+
+	Optional<Expenses> findAmountByEmployee(Employee emp);
+
+	Optional<Expenses> findByamount(Employee emp);
+
+	//Optional<Expenses> findBillAmount(Employee empdata);
+
 }

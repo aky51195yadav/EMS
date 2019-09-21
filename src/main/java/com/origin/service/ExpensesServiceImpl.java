@@ -2,8 +2,9 @@ package com.origin.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.apache.commons.io.FilenameUtils;
@@ -15,8 +16,6 @@ import com.origin.repo.EmployeeRepo;
 import com.origin.repo.ExpensesRepo;
 import com.origin.web.Employee;
 import com.origin.web.Expenses;
-
-import java.util.Optional;
 
 @Service
 public class ExpensesServiceImpl implements ExpensesService {
@@ -75,7 +74,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 		if (option.isPresent()) {
 			return option.get();
 		}
-		return new ArrayList<Expenses>();
+		return Collections.emptyList();
 	}
 
 	
@@ -96,5 +95,38 @@ public class ExpensesServiceImpl implements ExpensesService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Expenses fetchEmployee_Expenses(int empId) {
+		Employee emp = empRepo.findById(empId).orElse(null);
+		Optional<Expenses> options = eexpRepo.findAmountByEmployee(emp);
+		if (options.isPresent()) {
+			return (Expenses) options.get();
+		}
+		return (Expenses) Collections.emptyList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Expenses> Employee_Expenses(int empId) {
+		Employee emp = empRepo.findById(empId).orElse(null);
+		Optional<Expenses> option = eexpRepo.findByamount(emp);
+		if (option.isPresent()) {
+			return (List<Expenses>) option.get();
+		}
+		return Collections.emptyList();
+	}
+/*
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Expenses> retriveAmount(int empId) {
+		Employee empdata = empRepo.findById(empId).orElse(null);
+		Optional<Expenses> options = eexpRepo.findBillAmount(empdata);
+		if (options.isPresent()) {
+			return (List<Expenses>) options.get();
+		}
+		return Collections.emptyList();
+	}
+*/
 
 }

@@ -33,6 +33,7 @@ input {
 	margin: 0px 10px 0px 10px;
 	padding: 0px 15px 0px 15px;
 }
+
 body {
 	margin: 0;
 	font-family: Arial, Helvetica, sans-serif;
@@ -42,20 +43,20 @@ body {
 	overflow: hidden;
 	background-color: #333;
 }
-h3
-{
-background-color:white; 
+
+h3 {
+	color: white;
 }
 </style>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
-<div  align="center" class="topnav">
+	<div align="center" class="topnav">
 
-<h3>Employee Management System</h3>
+		<h3>Employee Management System</h3>
 
-</div>
+	</div>
 	<div align="center">
 		<form action="http://localhost:9021/HibernateTest/user">
 			<table id="tbl">

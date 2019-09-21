@@ -22,4 +22,10 @@ public interface ExpensesService {
 
 	List<Expenses> getAllExpensesRecords();
 
+	Expenses fetchEmployee_Expenses(int empId);
+
+	List<Expenses> Employee_Expenses(int expId);
+
+//	List<Expenses> retriveAmount(int expId);
+
 }
